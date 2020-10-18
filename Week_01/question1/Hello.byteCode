@@ -1,0 +1,105 @@
+Classfile /E:/work/learn/src/main/greekTime/week1/Hello.class
+  Last modified 2020-10-18; size 444 bytes
+  MD5 checksum 9f36ba216f5f86db9c3cae4eb2de344d
+  Compiled from "Hello.java"
+public class greekTime.week1.Hello
+  minor version: 0
+  major version: 52
+  flags: ACC_PUBLIC, ACC_SUPER
+Constant pool:
+   #1 = Methodref          #3.#14         // java/lang/Object."<init>":()V
+   #2 = Class              #15            // greekTime/week1/Hello
+   #3 = Class              #16            // java/lang/Object
+   #4 = Utf8               <init>
+   #5 = Utf8               ()V
+   #6 = Utf8               Code
+   #7 = Utf8               LineNumberTable
+   #8 = Utf8               main
+   #9 = Utf8               ([Ljava/lang/String;)V
+  #10 = Utf8               StackMapTable
+  #11 = Class              #17            // "[Ljava/lang/String;"
+  #12 = Utf8               SourceFile
+  #13 = Utf8               Hello.java
+  #14 = NameAndType        #4:#5          // "<init>":()V
+  #15 = Utf8               greekTime/week1/Hello
+  #16 = Utf8               java/lang/Object
+  #17 = Utf8               [Ljava/lang/String;
+{
+  public greekTime.week1.Hello();
+    descriptor: ()V
+    flags: ACC_PUBLIC
+    Code:
+      stack=1, locals=1, args_size=1
+         0: aload_0
+         1: invokespecial #1                  // Method java/lang/Object."<init>":()V
+         4: return
+      LineNumberTable:
+        line 3: 0
+
+  public static void main(java.lang.String[]);
+    descriptor: ([Ljava/lang/String;)V
+    flags: ACC_PUBLIC, ACC_STATIC
+    Code:
+      stack=2, locals=10, args_size=1
+         0: bipush        21               //压栈 -1~5 iconst -128~127 bipush -32768~32767 sipush
+         2: istore_1                       //弹出操作数栈顶元素，保存到局部变量表的第一个位置
+         3: bipush        10
+         5: istore_2
+         6: iload_1                        //第一个本地变量压入操作数栈
+         7: iload_2                        //第二个本地变量压入操作数栈
+         8: iadd                           //操作数栈的前两个相加，并将结果压入操作数栈顶
+         9: istore_3
+        10: iload_1
+        11: iload_2
+        12: isub                           //操作数栈的前两个相减，并将结果压入操作数栈顶
+        13: istore        4
+        15: iload_1
+        16: iload_2
+        17: imul
+        18: istore        5
+        20: iload_1
+        21: iload_2
+        22: idiv
+        23: i2d
+        24: dstore        6
+        26: iload_1
+        27: iload_2
+        28: irem
+        29: istore        8
+        31: iload_3                      //第三个本地变量压入栈顶
+        32: bipush        21
+        34: if_icmple     59             //比较栈顶两个元素的大小
+        37: iconst_0                     //常量0入栈
+        38: istore        9              //弹出操作数栈顶元素，保存到局部变量表的第一个位置
+        40: iload         9
+        42: iload_3
+        43: if_icmpge     59
+        46: iload         5
+        48: iload         9
+        50: iadd
+        51: istore        5
+        53: iinc          9, 1
+        56: goto          40             //跳转40行
+        59: return
+      LineNumberTable:
+        line 5: 0
+        line 6: 3
+        line 8: 6
+        line 9: 10
+        line 10: 15
+        line 11: 20
+        line 12: 26
+        line 14: 31
+        line 15: 37
+        line 16: 46
+        line 15: 53
+        line 19: 59
+      StackMapTable: number_of_entries = 2
+        frame_type = 255 /* full_frame */
+          offset_delta = 40
+          locals = [ class "[Ljava/lang/String;", int, int, int, int, int, double, int, int ]
+          stack = []
+        frame_type = 250 /* chop */
+          offset_delta = 18
+}
+SourceFile: "Hello.java"
