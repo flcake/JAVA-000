@@ -195,7 +195,10 @@ Heap
  concurrent mark-sweep generation total 349568K, used 348589K [0x00000000eaaa0000, 0x0000000100000000, 0x0000000100000000)
  Metaspace       used 2624K, capacity 4486K, committed 4864K, reserved 1056768K
   class space    used 290K, capacity 386K, committed 512K, reserved 1048576K
-  
+
+
+
+
   1.CMS可以在日志中看到垃圾回收的阶段：初始标记，并发标记，并发预清理，最终标记，并发清除，并发重置。
 2020-10-27T22:54:40.989+0800: [GC (CMS Initial Mark) [1 CMS-initial-mark: 207298K(349568K)] 225304K(506816K), 0.0002220 secs] [Times: user=0.00 sys=0.00, real=0.00 secs]
 2020-10-27T22:54:40.989+0800: [CMS-concurrent-mark-start]
