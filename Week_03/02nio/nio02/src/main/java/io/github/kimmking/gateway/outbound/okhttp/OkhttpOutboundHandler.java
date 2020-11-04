@@ -1,18 +1,24 @@
 package io.github.kimmking.gateway.outbound.okhttp;
 
+import io.github.kimmking.gateway.endpoint.Endpoint;
 import io.github.kimmking.gateway.outbound.httpclient4.NamedThreadFactory;
+import io.github.kimmking.gateway.router.HttpEndpointRouter;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.*;
+import org.apache.commons.lang.math.RandomUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
+import sun.swing.StringUIClientPropertyKey;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Random;
 import java.util.concurrent.*;
 import static io.netty.handler.codec.http.HttpResponseStatus.NO_CONTENT;
 import static io.netty.handler.codec.http.HttpResponseStatus.OK;
@@ -21,14 +27,13 @@ import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
 
 public class OkhttpOutboundHandler {
 
-    private String backendUrl;
-
     private ExecutorService proxyService;
 
     private CloseableHttpClient client;
 
-    public OkhttpOutboundHandler(String backendUrl) {
-        this.backendUrl = backendUrl.endsWith("/") ? backendUrl.substring(0, backendUrl.length() - 1) : backendUrl;
+    private String routeRule;
+
+    public OkhttpOutboundHandler() {
         int cores = Runtime.getRuntime().availableProcessors() * 2;
         long keepAliveTime = 1000;
         int queueSize = 2048;
@@ -40,7 +45,12 @@ public class OkhttpOutboundHandler {
     }
 
     public void handle(final FullHttpRequest fullHttpRequest, final ChannelHandlerContext ctx) {
-        final String url = this.backendUrl + fullHttpRequest.uri();
+        HttpHeaders headers = fullHttpRequest.headers();
+        if ("ldq".equals(headers.get("name"))) {
+            routeRule = headers.get("name");
+        }
+        String backendUrl = new MyHttpEndpointRouter().route(Endpoint.ENDPOINTS);
+        final String url = backendUrl + fullHttpRequest.uri();
         proxyService.submit(() -> fetchGet(fullHttpRequest, ctx, url));
 
     }
@@ -83,6 +93,16 @@ public class OkhttpOutboundHandler {
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
         cause.printStackTrace();
         ctx.close();
+    }
+
+    class MyHttpEndpointRouter implements HttpEndpointRouter {
+        @Override
+        public String route(List<String> endpoints) {
+            if ("ldq".equals(routeRule)) {
+                return endpoints.get(RandomUtils.nextInt(2));
+            }
+            return Endpoint.ENDPINT_DEFAULT;
+        }
     }
 
 }
